@@ -22,7 +22,7 @@
 /* Additional constants used across multiple functions */
 int rightMotorPWM = 0, leftMotorPWM = 0;
 double kp_l, ki_l, kd_l, kp_r, ki_r, kd_r;
-int error, t;
+int error, errorHead, t;
 
  /*
   *  brief: function stores values between 0 to 1 as floating point values 
@@ -66,15 +66,28 @@ void pidWrite (void) {
 /*
  * brief: takes inputs from IR pains and converts to calculable values
  */
-void determineError (void) {
-  error = pow(analogRead(LEFT_IR_PIN) - LEFT_IR_EXPEC, 2) + 
-          pow(analogRead(MIDD_IR_PIN) - MIDD_IR_EXPEC, 2) + 
-          pow(analogRead(RIGH_IR_PIN) - RIGH_IR_EXPEC, 2);
 
+ /// Need to adjust Error function it's barely effective with direction
+void determineError (void) {
+  error = pow(analogRead(LEFT_IR_PIN) - LEFT_IR_EXPEC, 2) + pow(analogRead(RIGH_IR_PIN) - RIGH_IR_EXPEC, 2);
+  errorHead = analogRead(MIDD_IR_PIN) - MIDD_IR_EXPEC;  // error function for head
   return;
 }
 
+// set threshold error before mouse strikes the wall
+void determineError (void) {
+  if (errorHead_threshold <= errorHead) {
+    analogWrite(RM_PWM_PIN, rightMotorPWM);
+    analogWrite(LM_PWM_PIN, leftMotorPWM);
+  }
+}
+
 void setup (void) {
+  /* 
+   *  INITIALIZE ALL GPIO porst to respective purposes
+   *  
+   */
+   
   updatekPID();
 }
 
@@ -82,4 +95,5 @@ void setup (void) {
 void loop (void) {
   determineError();
   pidWrite();
+  updatekPID();
 }
