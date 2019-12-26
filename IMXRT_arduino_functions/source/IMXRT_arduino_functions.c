@@ -29,7 +29,7 @@
  */
  
 /**
- * @file    MIMXRT1052EVKB_micromouse_project.c
+ * @file    IMXRT_arduino_functions.c
  * @brief   Application entry point.
  */
 #include <stdio.h>
@@ -39,6 +39,9 @@
 #include "clock_config.h"
 #include "MIMXRT1052.h"
 #include "fsl_debug_console.h"
+
+//custom added header file
+#include "IMXRT_arduino_functions.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
@@ -61,10 +64,10 @@ int main(void) {
     volatile static int i = 0 ;
     /* Enter an infinite loop, just incrementing a counter. */
     while(1) {
-       i++ ;
+        i++ ;
         /* 'Dummy' NOP to allow source level single stepping of
             tight while() loop */
-       __asm volatile ("nop");
+        __asm volatile ("nop");
     }
     return 0 ;
 }
