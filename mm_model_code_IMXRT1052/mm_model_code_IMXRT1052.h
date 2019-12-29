@@ -30,13 +30,13 @@
 /* API */
 
  /*
-  *  brief: function stores values between 0 to 1 as floating point values
+  * @brief: function stores values between 0 to 1 as floating point values
   *  because all constants are recorded as values from a pot-aided voltage divider.
   */
 void InitializekPID (void);
 
 /*
- * brief: determines the adjustment required to correct the PWM of both motors
+ * @brief: determines the adjustment required to correct the PWM of both motors
  *        and adds the modification to both the left and right default PWMs.
  */
 void computePIDandUpdate (void);

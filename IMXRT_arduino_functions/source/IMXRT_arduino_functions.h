@@ -8,6 +8,15 @@
 #ifndef IMXRT_ARDUINO_FUNCTIONS_H_
 #define IMXRT_ARDUINO_FUNCTIONS_H_
 
+#include <stdio.h>
+#include "board.h"
+#include "peripherals.h"
+#include "pin_mux.h"
+#include "clock_config.h"
+#include "MIMXRT1052.h"
+#include "fsl_debug_console.h"
+
+
 typedef enum {
 	HIGH,
 	LOW,
