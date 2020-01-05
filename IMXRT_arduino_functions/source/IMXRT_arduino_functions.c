@@ -3,51 +3,90 @@
 #include "IMXRT_arduino_functions.h"
 
 /*
- * IMXRT_arduino_functions.h
+ * IMXRT_arduino_functions.c
  *
  *  Created on: Dec 26, 2019
  *      Author: espresso
  */
 
-//#ifndef IMXRT_ARDUINO_FUNCTIONS_H_
-//#define IMXRT_ARDUINO_FUNCTIONS_H_
-//
-//typedef enum {
-//	HIGH,
-//	LOW,
-//	INPUT,
-//	OUTPUT
-//	} arduino_types_t;
+/* Additional defines */
+#define GPIO_ARDUINO_BASE_ADDRESS GPIO2
 
-/* API */
+/* Pin request memory from called pins */
 
-/*
- * digitalWrite functions as an output signal
- *
- */
-void digitalWrite(uint32_t pin, arduino_types_t logicLevel);
 
-/*
- * digitalRead acts as an input
- */
-bool digitalRead(uint32_t pin);
+void digitalWrite(uint32_t pin, enum arduino_types logicLevel) {
 
-/*
- * Analog Write is responsible for writing data
- * in PWM format.
- */
-void analogWrite(uint32_t pin, int value);
+	uint32_t GDIR_pin_extraction_mask = 1;
 
-/*
- * analogRead uses the ADC from the imxrt and produces an integer value
- * between 0 and 1023
- */
-int analogRead(uint32_t pin);
+	// GDIR is Output if Direction bit is set to 1
+	if (GPIO2->GDIR & (GDIR_pin_extraction_mask << (pin)) == 0) {
+		// If the direction is misused the function is exited
+		return;
+	}
 
-/*
- * pinMode sets the direction of data traveling through the pin
- *
- */
-void pinMode(uint32_t pin, arduino_types_t dataDirection);
+	switch (logicLevel) {
 
-#endif /* IMXRT_ARDUINO_FUNCTIONS_H_ */
+		case HIGH :
+			GPIO_PinWrite(GPIO2, pin, 1U);
+			break;
+
+		case LOW :
+			GPIO_PinWrite(GPIO2, pin, 0U);
+			break;
+
+		default :
+			break;
+
+	}
+
+
+}
+
+
+
+bool digitalRead(uint32_t pin) {
+
+	uint32_t GDIR_pin_extraction_mask = 1;
+
+	// GDIR is Input if Direction bit is set to 0
+	if (GPIO2->GDIR & (GDIR_pin_extraction_mask << (pin)) != 0) {
+		// If the direction is misused the function is exited
+		return;
+	}
+
+	return GPIO_PinRead(GPIO_ARDUINO_BASE_ADDRESS, pin);
+}
+
+
+
+void analogWrite(uint32_t pin, int value) {
+
+}
+
+
+
+int analogRead(uint32_t pin) {
+
+}
+
+
+
+void pinMode(uint32_t pin, enum arduino_types dataDirection) {
+
+	if (dataDirection == INPUT) {
+		gpio_pin_config_t new_pin_config = {kGPIO_DigitalInput, 0, kGPIO_NoIntmode};
+	}
+
+	else if (dataDirection == OUTPUT) {
+		gpio_pin_config_t new_pin_config = {kGPIO_DigitalOutput, 0, kGPIO_NoIntmode};
+	}
+
+	else {
+		return;
+	}
+
+	GPIO_PinInit(GPIO_ARDUINO_BASE_ADDERESS, pin, &new_pin_config);
+
+	return;
+}

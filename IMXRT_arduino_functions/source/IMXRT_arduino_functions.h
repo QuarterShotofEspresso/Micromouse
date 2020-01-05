@@ -17,31 +17,39 @@
 #include "fsl_debug_console.h"
 
 
-typedef enum {
+enum arduino_types {
 	HIGH,
 	LOW,
 	INPUT,
 	OUTPUT
-	} arduino_types_t;
+	};
 
 /* API */
 
+// @param: pin - pin ids are found in the IMXRT programmer's manual
+
 /*
- * digitalWrite functions as an output signal
+ * Function: digitalWrite
+ * @brief: digitalWrite function sets the pad identified by pin
+ * to an output signal specified by logicLevel
  *
  */
 void digitalWrite(uint32_t pin, arduino_types_t logicLevel);
 
 /*
- * digitalRead acts as an input
+ * Function: digitalRead
+ * @brief: 	digitalRead serves as General Purpose Input
+ * @return: returns a 1 or 0 depending on the voltage level supplied
+ * 			at the input pin
  */
 bool digitalRead(uint32_t pin);
 
 /*
- * Analog Write is responsible for writing data
- * in PWM format.
+ * @brief: 	AnalogWrite produces a PWM signal at pad specified by pin
+ * 			and the duty cycle is computed using dutyCycle
+ * @param:	dutyCycle
  */
-void analogWrite(uint32_t pin, int value);
+void analogWrite(uint32_t pin, int dutyCycle);
 
 /*
  * analogRead uses the ADC from the imxrt and produces an integer value

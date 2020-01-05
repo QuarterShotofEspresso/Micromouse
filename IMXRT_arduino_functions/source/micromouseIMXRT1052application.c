@@ -52,7 +52,7 @@ int main(void) {
   	/* Initialize FSL debug console. */
     BOARD_InitDebugConsole();
 
-    /* Enter an infinite loop, just incrementing a counter. */
+
     while(true) {
 		computeError();
 		computePIDandUpdate();
