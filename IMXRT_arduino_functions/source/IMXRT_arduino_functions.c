@@ -58,10 +58,28 @@ bool digitalRead(uint32_t pin) {
 	return GPIO_PinRead(GPIO_ARDUINO_BASE_ADDRESS, pin);
 }
 
+struct analogWrite_pins [] {
+	
+	
+};
 
-
+/* 
+ *@param: value should be passed as percentages (0 -> 100);
+ * */
 void analogWrite(uint32_t pin, int value) {
 
+	//+++++++++++++++++++++++++++++++++++++
+	//NOTE:: Still need to add base_PWM!!!!
+	//+++++++++++++++++++++++++++++++++++++
+
+
+	pwm_config_t analogWrite_pwm_config;
+	PWM_GetDefaultConfig(&base_PWM, &analogWrite_pwm_config);
+
+	pwm_signal_param_t analogWrite_signal_param = {kPWM_A, value, kPWM_HighTrue, 0};
+
+	// Identify how to determine pwmFreq_Hz and scrClock_Hz
+	PWM_Setup(&base_PWM, kPWM_Module_0,  analogWrite_signal_param, 1, kPWM_SignedCenterAligned, );
 }
 
 

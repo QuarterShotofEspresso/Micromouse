@@ -1,5 +1,3 @@
-
-
 // ADJUST:
 // CHANGE MOTOR DIRECTIONS
 // ADD MOTOR DIRECTIONALITY (DONE)
@@ -64,7 +62,7 @@ void loop() {
   } else {
     digitalWrite(LEFT_MOTOR_NEG, LOW);
     analogWrite(LEFT_MOTOR_POS, map(leftPWM, 0, 127, 0, 255));
-//  }
+  }
 
   if (rightPWM > 127) {
     digitalWrite(RIGHT_MOTOR_POS, LOW);
@@ -72,7 +70,7 @@ void loop() {
   } else {
     digitalWrite(RIGHT_MOTOR_NEG, LOW);
     analogWrite(RIGHT_MOTOR_POS, map(rightPWM, 0, 127, 0, 255));
-//  }
+  }
   
 }
 
